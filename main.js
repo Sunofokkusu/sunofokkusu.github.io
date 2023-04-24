@@ -124,7 +124,6 @@ scene.add(controls.getObject());
 function animate() {
   requestAnimationFrame(animate);
   const time = performance.now();
-  let directionCollision = "none";
   if (controls.isLocked === true) {
     const delta = (time - prevTime) / 1000;
 
@@ -139,32 +138,6 @@ function animate() {
 
     if (moveForward || moveBackward) velocity.z -= direction.z * 400.0 * delta;
     if (moveLeft || moveRight) velocity.x -= direction.x * 400.0 * delta;
-
-    if (onObject === true) {
-      velocity.y = Math.max(0, velocity.y);
-      if(directionCollision === "front") {
-        camera.position.z -= 0.1;
-      }
-      if(directionCollision === "back") {
-        camera.position.z += 0.1;
-      }
-      if(directionCollision === "right") {
-        camera.position.x -= 0.1;
-      }
-      if(directionCollision === "left") {
-        camera.position.x += 0.1;
-      }
-    } else {
-      controls.moveRight(-velocity.x * delta);
-      controls.moveForward(-velocity.z * delta);
-
-      controls.getObject().position.y += velocity.y * delta; // new behavior
-
-      if (controls.getObject().position.y < 10) {
-        velocity.y = 0;
-        controls.getObject().position.y = 10;
-      }
-    }
   }
 
   prevTime = time;

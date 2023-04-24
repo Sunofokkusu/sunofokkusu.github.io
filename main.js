@@ -17,11 +17,6 @@ let moveBackward = false;
 let moveLeft = false;
 let moveRight = false;
 
-const tempVec = new THREE.Vector3();
-const tempVec1 = new THREE.Vector3();
-const tempVecP = new THREE.Vector3();
-const tempVecV = new THREE.Vector3();
-
 const scene = new THREE.Scene();
 
 // add a ground picture
@@ -109,74 +104,12 @@ gripController2.add(controllerModel2);
 scene.add(gripController1);
 scene.add(gripController2);
 
-const lineSegments = 10;
-const lineGeometry = new THREE.BufferGeometry();
-const lineGeometryVertices = new Float32Array((lineSegments + 1) * 3);
-lineGeometryVertices.fill(0);
-lineGeometry.setAttribute(
-  "position",
-  new THREE.BufferAttribute(lineGeometryVertices, 3)
-);
-const lineMaterial = new THREE.LineBasicMaterial({
-  color: 0x888888,
-  blending: 2,
-});
-const guideline = new THREE.Line(lineGeometry, lineMaterial);
-const guideLight = new THREE.PointLight(0xffeeaa, 0, 2);
+function onSelectStart() {
 
-const guideSpriteTexture = new THREE.TextureLoader().load('./img/target.png');
-const guideSprite = new THREE.Mesh(
-    new THREE.PlaneGeometry(0.3, 0.3, 1, 1),
-    new THREE.MeshBasicMaterial({
-        map: guideSpriteTexture,
-        blending: 2,
-        color: 0x555555,
-        transparent: true
-    })
-);
-
-function positionAtT(inVec, t, p, v, g) {
-  inVec.copy(p);
-  inVec.addScaledVector(v, t);
-  inVec.addScaledVector(g, 0.5 * t ** 2);
-  return inVec;
-}
-
-let guidingController = null;
-function onSelectStart(e) {
-  guidingController = this;
-  guideLight.intensity = 1;
-  guidingController.add(guideline);
-  scene.add(guideSprite);
 }
 
 function onSelectEnd() {
-  if (guidingController === this) {
-    // first work out vector from feet to cursor
-
-    // feet position
-    const feetPos = renderer.xr.getCamera(camera).getWorldPosition(tempVec);
-    feetPos.y = 0;
-
-    // cursor position
-    const p = guidingController.getWorldPosition(tempVecP);
-    const v = guidingController.getWorldDirection(tempVecV);
-    v.multiplyScalar(6);
-    const t = (-v.y + Math.sqrt(v.y ** 2 - 2 * p.y * g.y)) / g.y;
-    const cursorPos = positionAtT(tempVec1, t, p, v, g);
-
-    // Offset
-    const offset = cursorPos.addScaledVector(feetPos, -1);
-
-    // Do the locomotion
-    locomotion(offset);
-
-    // clean up
-    guidingController = null;
-    guideLight.intensity = 0;
-    this.remove(guideline);
-    scene.remove(guideSprite);
-  }
+ 
 }
 
 gripController1.addEventListener("selectstart", onSelectStart);

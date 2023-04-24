@@ -10,8 +10,6 @@ import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 
-import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory.js';
-
 let moveForward = false;
 let moveBackward = false;
 let moveLeft = false;
@@ -90,10 +88,13 @@ renderer.setAnimationLoop(function () {
 
 renderer.xr.getController(0); 
 renderer.xr.getControllerGrip(0);
-const controllerGrip1 = renderer.xr.getControllerGrip(0);
-const model1 = XRControllerModelFactory.createControllerModel( controllerGrip1 );
-controllerGrip1.add( model1 );
-scene.add( controllerGrip1 );
+const controller = new GLTFLoader();
+controller.load(
+  "scene.gltf",
+  (gltf) => {
+    controller1.add( gltf.scene );
+  }
+);
 
 const lineSegments=10;
 const lineGeometry = new BufferGeometry();

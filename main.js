@@ -10,6 +10,8 @@ import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 
+import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory.js';
+
 let moveForward = false;
 let moveBackward = false;
 let moveLeft = false;
@@ -86,6 +88,21 @@ renderer.setAnimationLoop(function () {
     renderer.render( scene, camera );
 });
 
+renderer.xr.getController(0); 
+renderer.xr.getControllerGrip(0);
+const controllerGrip1 = renderer.xr.getControllerGrip(0);
+const model1 = XRControllerModelFactory.createControllerModel( controllerGrip1 );
+controllerGrip1.add( model1 );
+scene.add( controllerGrip1 );
+
+const lineSegments=10;
+const lineGeometry = new BufferGeometry();
+const lineGeometryVertices = new Float32Array((lineSegments +1) * 3);
+lineGeometryVertices.fill(0);
+lineGeometry.setAttribute('position', new 
+BufferAttribute(lineGeometryVertices, 3));
+const lineMaterial = new LineBasicMaterial({ color: 0x888888, blending: AdditiveBlending });
+const guideline = new Line( lineGeometry, lineMaterial );
 
 const loader = new GLTFLoader();
 loader.load(

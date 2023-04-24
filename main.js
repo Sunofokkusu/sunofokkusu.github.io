@@ -17,6 +17,11 @@ let moveBackward = false;
 let moveLeft = false;
 let moveRight = false;
 
+const tempVec = new THREE.Vector3();
+const tempVec1 = new THREE.Vector3();
+const tempVecP = new THREE.Vector3();
+const tempVecV = new THREE.Vector3();
+
 const scene = new THREE.Scene();
 
 // add a ground picture
@@ -119,6 +124,17 @@ const lineMaterial = new THREE.LineBasicMaterial({
 const guideline = new THREE.Line(lineGeometry, lineMaterial);
 const guideLight = new THREE.PointLight(0xffeeaa, 0, 2);
 
+const guideSpriteTexture = new THREE.TextureLoader().load('./img/target.png');
+const guideSprite = new THREE.Mesh(
+    new THREE.PlaneGeometry(0.3, 0.3, 1, 1),
+    new THREE.MeshBasicMaterial({
+        map: guideSpriteTexture,
+        blending: 2,
+        color: 0x555555,
+        transparent: true
+    })
+);
+
 function positionAtT(inVec, t, p, v, g) {
   inVec.copy(p);
   inVec.addScaledVector(v, t);
@@ -128,10 +144,6 @@ function positionAtT(inVec, t, p, v, g) {
 
 let guidingController = null;
 function onSelectStart(e) {
-  if (e && e.data && e.data.hand) {
-    return;
-  }
-
   guidingController = this;
   guideLight.intensity = 1;
   guidingController.add(guideline);

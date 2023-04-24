@@ -100,6 +100,20 @@ gripController2.add(controllerModel2);
 scene.add(gripController1);
 scene.add(gripController2);
 
+const lineSegments=10;
+const lineGeometry = new THREE.BufferGeometry();
+const lineGeometryVertices = new Float32Array((lineSegments +1) * 3);
+lineGeometryVertices.fill(0);
+lineGeometry.setAttribute('position', new THREE.BufferAttribute(lineGeometryVertices, 3));
+const lineMaterial = new THREE.LineBasicMaterial({ color: 0x888888, blending: AdditiveBlending });
+const guideline = new Line( lineGeometry, lineMaterial );
+
+gripController1.addEventListener("selectstart", onSelectStart);
+gripController1.addEventListener("selectend", onSelectEnd);
+
+gripController2.addEventListener("selectstart", onSelectStart);
+gripController2.addEventListener("selectend", onSelectEnd);
+
 const loader = new GLTFLoader();
 loader.load(
   "voiture.glb",

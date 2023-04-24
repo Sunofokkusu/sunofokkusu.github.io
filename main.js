@@ -25,7 +25,7 @@ groundTexture.repeat.set(100, 100);
 const groundMaterial = new THREE.MeshLambertMaterial({ map: groundTexture });
 const groundMesh = new THREE.Mesh(new THREE.PlaneGeometry(10000, 10000), groundMaterial);
 groundMesh.rotation.x = -Math.PI / 2;
-groundMesh.position.y = -10;
+groundMesh.position.y = -5;
 scene.add(groundMesh);
 
 let prevTime = performance.now();
@@ -38,7 +38,6 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-camera.position.setY(-6);
 camera.position.setZ(-4);
 camera.rotateY(3.15);
 
@@ -59,7 +58,7 @@ function addTree(number){
       loader.load('./oak_01.fbx', function (object) {
             let randX = Math.random() * 200 - 100;
             let randZ = Math.random() * 200 - 100;
-            object.position.set(randX, -10, randZ);
+            object.position.set(randX, -5, randZ);
             scene.add(object);
         });
     }
@@ -92,7 +91,7 @@ const loader = new GLTFLoader();
 loader.load(
   "voiture.glb",
   (gltf) => {
-    gltf.scene.position.setY(-10);
+    gltf.scene.position.setY(-5);
     gltf.scene.position.setX(12);
     scene.add(gltf.scene);
   }

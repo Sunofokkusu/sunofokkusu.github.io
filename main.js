@@ -38,7 +38,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-camera.position.setY(12);
+camera.position.setY(-3);
 camera.position.setZ(-4);
 camera.rotateY(3.15);
 
@@ -93,6 +93,7 @@ loader.load(
   "voiture.glb",
   (gltf) => {
     gltf.scene.position.setY(-10);
+    gltf.scene.position.setX(12);
     scene.add(gltf.scene);
   }
 );

@@ -106,7 +106,7 @@ const lineGeometryVertices = new Float32Array((lineSegments +1) * 3);
 lineGeometryVertices.fill(0);
 lineGeometry.setAttribute('position', new THREE.BufferAttribute(lineGeometryVertices, 3));
 const lineMaterial = new THREE.LineBasicMaterial({ color: 0x888888, blending: AdditiveBlending });
-const guideline = new Line( lineGeometry, lineMaterial );
+const guideline = new THREE.Line( lineGeometry, lineMaterial );
 
 gripController1.addEventListener("selectstart", onSelectStart);
 gripController1.addEventListener("selectend", onSelectEnd);

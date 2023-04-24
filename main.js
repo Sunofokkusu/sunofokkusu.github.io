@@ -28,19 +28,6 @@ groundMesh.rotation.x = -Math.PI / 2;
 groundMesh.position.y = -0.1;
 scene.add(groundMesh);
 
-// add a sky picture
-const skyTexture = new THREE.TextureLoader().load("./istockphoto-825778252-612x612.jpg");
-const skyMaterial = new THREE.MeshLambertMaterial({ map: skyTexture });
-const skyMesh = new THREE.Mesh(new THREE.PlaneGeometry(10000, 10000), skyMaterial);
-skyMesh.rotation.x = -Math.PI / 2;
-skyMesh.position.y = 10;
-scene.add(skyMesh);
-
-let raycaster;
-const objects = [];
- 
-let threeHitbox = [];
-
 let prevTime = performance.now();
 const velocity = new THREE.Vector3();
 const direction = new THREE.Vector3();
@@ -73,29 +60,6 @@ function addTree(number){
             let randX = Math.random() * 200 - 100;
             let randZ = Math.random() * 200 - 100;
             object.position.set(randX, 0, randZ);
-            let hitbox = new THREE.Box3().setFromObject(object);
-            hitbox.min.x += 15;
-            hitbox.min.z += 15;
-            hitbox.max.x -= 15;
-            hitbox.max.z -= 15;
-            // create four hitboxes for each tree
-            let hitbox1 = new THREE.Box3(new THREE.Vector3(hitbox.min.x, hitbox.min.y, hitbox.min.z), new THREE.Vector3(hitbox.min.x, hitbox.max.y, hitbox.max.z));
-            let hitbox2 = new THREE.Box3(new THREE.Vector3(hitbox.min.x, hitbox.min.y, hitbox.min.z), new THREE.Vector3(hitbox.max.x, hitbox.max.y, hitbox.min.z));
-            let hitbox3 = new THREE.Box3(new THREE.Vector3(hitbox.max.x, hitbox.min.y, hitbox.min.z), new THREE.Vector3(hitbox.max.x, hitbox.max.y, hitbox.max.z));
-            let hitbox4 = new THREE.Box3(new THREE.Vector3(hitbox.min.x, hitbox.min.y, hitbox.max.z), new THREE.Vector3(hitbox.max.x, hitbox.max.y, hitbox.max.z));
-
-            // create a helper for each hitbox
-            let helper1 = new THREE.Box3Helper(hitbox1, 0xffff00);
-            let helper2 = new THREE.Box3Helper(hitbox2, 0xffff00);
-            let helper3 = new THREE.Box3Helper(hitbox3, 0xffff00);
-            let helper4 = new THREE.Box3Helper(hitbox4, 0xffff00);
-
-            threeHitbox.push([hitbox1, hitbox2, hitbox3, hitbox4]);
-
-            scene.add(helper1);
-            scene.add(helper2);
-            scene.add(helper3);
-            scene.add(helper4);
             scene.add(object);
         });
     }
@@ -148,41 +112,11 @@ document.body.addEventListener("click", () => {
 
 scene.add(controls.getObject());
 
-raycaster = new THREE.Raycaster(
-  new THREE.Vector3(),
-  new THREE.Vector3(0, -1, 0),
-  0,
-  10
-);
-
 function animate() {
   requestAnimationFrame(animate);
   const time = performance.now();
   let directionCollision = "none";
   if (controls.isLocked === true) {
-    raycaster.ray.origin.copy(controls.getObject().position);
-    raycaster.ray.origin.y -= 10;
-
-    const intersections = raycaster.intersectObjects(objects);
-    let onObject = intersections.length > 0;
-    if (carHitbox) {
-      threeHitbox.forEach((hitbox) => {
-        if (carHitbox.intersectsBox(hitbox[0])) {
-          onObject = true;
-          directionCollision = "front";
-        } else if (carHitbox.intersectsBox(hitbox[1])) {
-          onObject = true;
-          directionCollision = "left";
-        } else if (carHitbox.intersectsBox(hitbox[2])) {
-          onObject = true;
-          directionCollision = "right";
-        } else if (carHitbox.intersectsBox(hitbox[3])) {
-          onObject = true;
-          directionCollision = "back";
-        }
-      });
-    }
-
     const delta = (time - prevTime) / 1000;
 
     velocity.x -= velocity.x * 10.0 * delta;

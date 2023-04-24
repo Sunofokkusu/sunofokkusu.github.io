@@ -86,7 +86,7 @@ renderer.setAnimationLoop(function () {
     renderer.render( scene, camera );
 });
 
-renderer.xr.getController(0); 
+let controller1 = renderer.xr.getController(0); 
 renderer.xr.getControllerGrip(0);
 const controller = new GLTFLoader();
 controller.load(
@@ -95,15 +95,6 @@ controller.load(
     controller1.add( gltf.scene );
   }
 );
-
-const lineSegments=10;
-const lineGeometry = new BufferGeometry();
-const lineGeometryVertices = new Float32Array((lineSegments +1) * 3);
-lineGeometryVertices.fill(0);
-lineGeometry.setAttribute('position', new 
-BufferAttribute(lineGeometryVertices, 3));
-const lineMaterial = new LineBasicMaterial({ color: 0x888888, blending: AdditiveBlending });
-const guideline = new Line( lineGeometry, lineMaterial );
 
 const loader = new GLTFLoader();
 loader.load(

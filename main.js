@@ -113,8 +113,7 @@ lineGeometry.setAttribute(
   new THREE.BufferAttribute(lineGeometryVertices, 3)
 );
 const lineMaterial = new THREE.LineBasicMaterial({
-  color: 0x888888,
-  blending: AdditiveBlending,
+  color: 0x888888
 });
 const guideline = new THREE.Line(lineGeometry, lineMaterial);
 const guideLight = new THREE.PointLight(0xffeeaa, 0, 2);

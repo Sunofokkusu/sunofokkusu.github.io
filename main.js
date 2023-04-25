@@ -31,7 +31,7 @@ groundTexture.wrapT = THREE.RepeatWrapping;
 groundTexture.repeat.set(100, 100);
 let groundMaterial = new THREE.MeshLambertMaterial({ map: groundTexture });
 let groundMesh = new THREE.Mesh(
-  new THREE.PlaneGeometry(4.8, 4.8, 2, 2).rotateX(-Math.PI / 2),
+  new THREE.PlaneGeometry(4.8, 4.8, 2, 2),
   groundMaterial
 );
 groundMesh.rotation.x = -Math.PI / 2;

@@ -153,7 +153,6 @@ function onSelectStart() {
 function onSelectEnd() {
   this.userData.isSelecting = false;
 
-  if (INTERSECTION) {
     let offsetPosition = {
       x: -INTERSECTION.x,
       y: -INTERSECTION.y,
@@ -166,7 +165,6 @@ function onSelectEnd() {
       baseReferenceSpace.getOffsetReferenceSpace(transform);
 
     renderer.xr.setReferenceSpace(teleportSpaceOffset);
-  }
 }
 
 controllerGrip1.addEventListener("selectstart", onSelectStart);

@@ -83,7 +83,7 @@
         scene.add(marker);
 
         let floorTexture = new THREE.TextureLoader().load(
-          "./img/depositphotos_10589691-stock-photo-ground-background.jpg"
+          "depositphotos_10589691-stock-photo-ground-background.jpg"
         );
         floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
         floorTexture.repeat.set(10, 10);
@@ -106,7 +106,7 @@
         function addTree(number) {
           for (let i = 0; i < number; i++) {
             let loader = new FBXLoader();
-            loader.load("./oak_01.fbx", function (object) {
+            loader.load("oak_01.fbx", function (object) {
               let randX = Math.random() * 200 - 100;
               let randZ = Math.random() * 200 - 100;
               object.position.set(randX, -5, randZ);

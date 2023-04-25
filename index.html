@@ -64,12 +64,6 @@
         );
         camera.position.set(0, 1, 3);
 
-        room = new THREE.LineSegments(
-          new BoxLineGeometry(6, 6, 6, 10, 10, 10).translate(0, 3, 0),
-          new THREE.LineBasicMaterial({ color: 0x808080 })
-        );
-        scene.add(room);
-
         scene.add(new THREE.HemisphereLight(0x606060, 0x404040));
 
         const light = new THREE.DirectionalLight(0xffffff);
@@ -96,9 +90,9 @@
         floor.position.y = -0.5;
         floor.rotation.x = Math.PI / 2;
         scene.add(floor);
+
         let loader = new GLTFLoader();
         loader.load("voiture.glb", (gltf) => {
-          gltf.scene.position.setY(-5);
           gltf.scene.position.setX(12);
           scene.add(gltf.scene);
         });
@@ -109,7 +103,7 @@
             loader.load("oak_01.fbx", function (object) {
               let randX = Math.random() * 200 - 100;
               let randZ = Math.random() * 200 - 100;
-              object.position.set(randX, -5, randZ);
+              object.position.set(randX, -0.5, randZ);
               scene.add(object);
             });
           }

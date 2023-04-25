@@ -94,47 +94,38 @@
 
         let loader = new GLTFLoader();
         loader.load("voiture.glb", (gltf) => {
+          gltf.scene.position.setY(-0.5);
           gltf.scene.position.setX(12);
           scene.add(gltf.scene);
         });
 
         let loaderTree = new FBXLoader();
         loader.load("oak_01.fbx", function (object) {
-          let randX = Math.random() * 200 - 100;
-          let randZ = Math.random() * 200 - 100;
-          object.position.set(randX, -0.5, randZ);
+          object.position.set(15, -0.5, 5);
           scene.add(object);
         });
 
         loaderTree = new FBXLoader();
         loader.load("oak_01.fbx", function (object) {
-          let randX = Math.random() * 200 - 100;
-          let randZ = Math.random() * 200 - 100;
-          object.position.set(randX, -0.5, randZ);
+          object.position.set(20, -0.5, 8);
           scene.add(object);
         });
 
         loaderTree = new FBXLoader();
         loader.load("oak_01.fbx", function (object) {
-          let randX = Math.random() * 200 - 100;
-          let randZ = Math.random() * 200 - 100;
-          object.position.set(randX, -0.5, randZ);
+          object.position.set(8, -0.5, 12);
           scene.add(object);
         });
 
         loaderTree = new FBXLoader();
         loader.load("oak_01.fbx", function (object) {
-          let randX = Math.random() * 200 - 100;
-          let randZ = Math.random() * 200 - 100;
-          object.position.set(randX, -0.5, randZ);
+          object.position.set(9, -0.5, 3);
           scene.add(object);
         });
 
         loaderTree = new FBXLoader();
         loader.load("oak_01.fbx", function (object) {
-          let randX = Math.random() * 200 - 100;
-          let randZ = Math.random() * 200 - 100;
-          object.position.set(randX, -0.5, randZ);
+          object.position.set(14, -0.5, 9);
           scene.add(object);
         });
 

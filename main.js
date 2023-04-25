@@ -229,6 +229,13 @@ document.body.addEventListener("click", () => {
 
 scene.add(controls.getObject());
 
+
+let marker = new THREE.Mesh(
+  new THREE.CircleGeometry( 0.25, 32 ).rotateX( - Math.PI / 2 ),
+  new THREE.MeshBasicMaterial( { color: 0x808080 } )
+);
+scene.add( marker );
+
 function render() {
   INTERSECTION = undefined;
 

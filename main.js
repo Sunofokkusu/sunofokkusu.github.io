@@ -18,19 +18,19 @@ let moveLeft = false;
 let moveRight = false;
 
 let INTERSECTION;
-const tempMatrix = new THREE.Matrix4();
+let tempMatrix = new THREE.Matrix4();
 
-const scene = new THREE.Scene();
+let scene = new THREE.Scene();
 
 // add a ground picture
-const groundTexture = new THREE.TextureLoader().load(
+let groundTexture = new THREE.TextureLoader().load(
   "./depositphotos_10589691-stock-photo-ground-background.webp"
 );
 groundTexture.wrapS = THREE.RepeatWrapping;
 groundTexture.wrapT = THREE.RepeatWrapping;
 groundTexture.repeat.set(100, 100);
-const groundMaterial = new THREE.MeshLambertMaterial({ map: groundTexture });
-const groundMesh = new THREE.Mesh(
+let groundMaterial = new THREE.MeshLambertMaterial({ map: groundTexture });
+let groundMesh = new THREE.Mesh(
   new THREE.PlaneGeometry(10000, 10000),
   groundMaterial
 );
@@ -39,10 +39,10 @@ groundMesh.position.y = -5;
 scene.add(groundMesh);
 
 let prevTime = performance.now();
-const velocity = new THREE.Vector3();
-const direction = new THREE.Vector3();
+let velocity = new THREE.Vector3();
+let direction = new THREE.Vector3();
 
-const camera = new THREE.PerspectiveCamera(
+let camera = new THREE.PerspectiveCamera(
   75,
   window.innerWidth / window.innerHeight,
   0.1,
@@ -51,14 +51,14 @@ const camera = new THREE.PerspectiveCamera(
 camera.position.setZ(-4);
 camera.rotateY(3.15);
 
-const pointLight = new THREE.PointLight(0xffffff);
+let pointLight = new THREE.PointLight(0xffffff);
 pointLight.position.set(5, 5, 5);
 
 scene.add(pointLight);
 
 // reduce the amount of light in the scene
 
-const ambientLight = new THREE.AmbientLight(0xffffff);
+let ambientLight = new THREE.AmbientLight(0xffffff);
 scene.add(ambientLight);
 
 function addTree(number) {
@@ -75,7 +75,7 @@ function addTree(number) {
 
 addTree(5);
 
-const renderer = new THREE.WebGLRenderer({
+let renderer = new THREE.WebGLRenderer({
   canvas: document.querySelector("#bg"),
   antialias: false,
 });
@@ -133,7 +133,7 @@ controller2.addEventListener("disconnected", function () {
 });
 scene.add(controller2);
 
-const controllerModelFactory = new XRControllerModelFactory();
+let controllerModelFactory = new XRControllerModelFactory();
 let controllerGrip1 = renderer.xr.getControllerGrip(0);
 controllerGrip1.add(
   controllerModelFactory.createControllerModel(controllerGrip1)
@@ -154,15 +154,15 @@ function onSelectEnd() {
   this.userData.isSelecting = false;
 
   if (INTERSECTION) {
-    const offsetPosition = {
+    let offsetPosition = {
       x: -INTERSECTION.x,
       y: -INTERSECTION.y,
       z: -INTERSECTION.z,
       w: 1,
     };
-    const offsetRotation = new THREE.Quaternion();
-    const transform = new XRRigidTransform(offsetPosition, offsetRotation);
-    const teleportSpaceOffset =
+    let offsetRotation = new THREE.Quaternion();
+    let transform = new XRRigidTransform(offsetPosition, offsetRotation);
+    let teleportSpaceOffset =
       baseReferenceSpace.getOffsetReferenceSpace(transform);
 
     renderer.xr.setReferenceSpace(teleportSpaceOffset);
@@ -207,7 +207,7 @@ function buildController(data) {
   }
 }
 
-const loader = new GLTFLoader();
+let loader = new GLTFLoader();
 loader.load("voiture.glb", (gltf) => {
   gltf.scene.position.setY(-5);
   gltf.scene.position.setX(12);
@@ -238,7 +238,7 @@ function render() {
     raycaster.ray.origin.setFromMatrixPosition(controller1.matrixWorld);
     raycaster.ray.direction.set(0, 0, -1).applyMatrix4(tempMatrix);
 
-    const intersects = raycaster.intersectObjects([floor]);
+    let intersects = raycaster.intersectObjects([floor]);
 
     if (intersects.length > 0) {
       INTERSECTION = intersects[0].point;
@@ -249,7 +249,7 @@ function render() {
     raycaster.ray.origin.setFromMatrixPosition(controller2.matrixWorld);
     raycaster.ray.direction.set(0, 0, -1).applyMatrix4(tempMatrix);
 
-    const intersects = raycaster.intersectObjects([floor]);
+    let intersects = raycaster.intersectObjects([floor]);
 
     if (intersects.length > 0) {
       INTERSECTION = intersects[0].point;
@@ -266,9 +266,9 @@ function render() {
 function animate() {
   renderer.setAnimationLoop(render);
   requestAnimationFrame(animate);
-  const time = performance.now();
+  let time = performance.now();
   if (controls.isLocked === true) {
-    const delta = (time - prevTime) / 1000;
+    let delta = (time - prevTime) / 1000;
 
     velocity.x -= velocity.x * 10.0 * delta;
     velocity.z -= velocity.z * 10.0 * delta;

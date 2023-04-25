@@ -81,22 +81,40 @@
         );
         scene.add(marker);
 
-        floor = new THREE.Mesh(
-          new THREE.PlaneGeometry(4.8, 4.8, 2, 2).rotateX(-Math.PI / 2),
-          new THREE.MeshBasicMaterial({
-            color: 0x808080,
-            transparent: true,
-            opacity: 0.25,
-          })
+        let floorTexture = new THREE.TextureLoader().load(
+          "./img/depositphotos_10589691-stock-photo-ground-background.jpg"
         );
+        floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
+        floorTexture.repeat.set(10, 10);
+        let floorMaterial = new THREE.MeshBasicMaterial({
+          map: floorTexture,
+          side: THREE.DoubleSide,
+        });
+        let floorGeometry = new THREE.PlaneGeometry(100, 100, 10, 10);
+        floor = new THREE.Mesh(floorGeometry, floorMaterial);
+        floor.position.y = -0.5;
+        floor.rotation.x = Math.PI / 2;
         scene.add(floor);
-
         let loader = new GLTFLoader();
         loader.load("voiture.glb", (gltf) => {
           gltf.scene.position.setY(-5);
           gltf.scene.position.setX(12);
           scene.add(gltf.scene);
         });
+
+        function addTree(number) {
+          for (let i = 0; i < number; i++) {
+            let loader = new FBXLoader();
+            loader.load("./oak_01.fbx", function (object) {
+              let randX = Math.random() * 200 - 100;
+              let randZ = Math.random() * 200 - 100;
+              object.position.set(randX, -5, randZ);
+              scene.add(object);
+            });
+          }
+        }
+
+        addTree(5);
 
         raycaster = new THREE.Raycaster();
 

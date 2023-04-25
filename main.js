@@ -30,13 +30,15 @@ groundTexture.wrapS = THREE.RepeatWrapping;
 groundTexture.wrapT = THREE.RepeatWrapping;
 groundTexture.repeat.set(100, 100);
 let groundMaterial = new THREE.MeshLambertMaterial({ map: groundTexture });
-let groundMesh = new THREE.Mesh(
-  new THREE.PlaneGeometry(4.8, 4.8, 2, 2),
-  groundMaterial
+let floor = new THREE.Mesh(
+  new THREE.PlaneGeometry(4.8, 4.8, 2, 2).rotateX(-Math.PI / 2),
+  new THREE.MeshBasicMaterial({
+    color: 0x808080,
+    transparent: true,
+    opacity: 0.25,
+  })
 );
-groundMesh.rotation.x = -Math.PI / 2;
-groundMesh.position.y = -5;
-scene.add(groundMesh);
+scene.add(floor);
 
 let camera = new THREE.PerspectiveCamera(
   75,
@@ -44,8 +46,7 @@ let camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-camera.position.setZ(-4);
-camera.rotateY(3.15);
+camera.position.set(0, 1, 3);
 
 let pointLight = new THREE.PointLight(0xffffff);
 pointLight.position.set(5, 5, 5);
@@ -70,14 +71,6 @@ function addTree(number) {
 }
 
 addTree(5);
-
-let renderer = new THREE.WebGLRenderer({
-  canvas: document.querySelector("#bg"),
-  antialias: false,
-});
-
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(window.devicePixelRatio * 0.5);
 
 window.addEventListener("resize", () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -150,15 +143,15 @@ function onSelectEnd() {
   this.userData.isSelecting = false;
 
   if (INTERSECTION) {
-    let offsetPosition = {
+    const offsetPosition = {
       x: -INTERSECTION.x,
       y: -INTERSECTION.y,
       z: -INTERSECTION.z,
       w: 1,
     };
-    let offsetRotation = new THREE.Quaternion();
-    let transform = new XRRigidTransform(offsetPosition, offsetRotation);
-    let teleportSpaceOffset =
+    const offsetRotation = new THREE.Quaternion();
+    const transform = new XRRigidTransform(offsetPosition, offsetRotation);
+    const teleportSpaceOffset =
       baseReferenceSpace.getOffsetReferenceSpace(transform);
 
     renderer.xr.setReferenceSpace(teleportSpaceOffset);
@@ -240,7 +233,7 @@ function render() {
     raycaster.ray.origin.setFromMatrixPosition(controller1.matrixWorld);
     raycaster.ray.direction.set(0, 0, -1).applyMatrix4(tempMatrix);
 
-    let intersects = raycaster.intersectObjects([groundMesh]);
+    let intersects = raycaster.intersectObjects([floor]);
 
     if (intersects.length > 0) {
       INTERSECTION = intersects[0].point;
@@ -251,7 +244,7 @@ function render() {
     raycaster.ray.origin.setFromMatrixPosition(controller2.matrixWorld);
     raycaster.ray.direction.set(0, 0, -1).applyMatrix4(tempMatrix);
 
-    let intersects = raycaster.intersectObjects([groundMesh]);
+    let intersects = raycaster.intersectObjects([floor]);
 
     if (intersects.length > 0) {
       INTERSECTION = intersects[0].point;

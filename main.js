@@ -254,7 +254,7 @@ function render() {
     raycaster.ray.origin.setFromMatrixPosition(controller2.matrixWorld);
     raycaster.ray.direction.set(0, 0, -1).applyMatrix4(tempMatrix);
 
-    let intersects = raycaster.intersectObjects([floor]);
+    let intersects = raycaster.intersectObjects([groundMesh]);
 
     if (intersects.length > 0) {
       INTERSECTION = intersects[0].point;

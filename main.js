@@ -31,16 +31,12 @@ groundTexture.wrapT = THREE.RepeatWrapping;
 groundTexture.repeat.set(100, 100);
 let groundMaterial = new THREE.MeshLambertMaterial({ map: groundTexture });
 let groundMesh = new THREE.Mesh(
-  new THREE.PlaneGeometry(10000, 10000),
+  new THREE.PlaneGeometry(4.8, 4.8, 2, 2).rotateX(-Math.PI / 2),
   groundMaterial
 );
 groundMesh.rotation.x = -Math.PI / 2;
 groundMesh.position.y = -5;
 scene.add(groundMesh);
-
-let prevTime = performance.now();
-let velocity = new THREE.Vector3();
-let direction = new THREE.Vector3();
 
 let camera = new THREE.PerspectiveCamera(
   75,
@@ -153,6 +149,7 @@ function onSelectStart() {
 function onSelectEnd() {
   this.userData.isSelecting = false;
 
+  if (INTERSECTION) {
     let offsetPosition = {
       x: -INTERSECTION.x,
       y: -INTERSECTION.y,
@@ -165,6 +162,7 @@ function onSelectEnd() {
       baseReferenceSpace.getOffsetReferenceSpace(transform);
 
     renderer.xr.setReferenceSpace(teleportSpaceOffset);
+  }
 }
 
 controllerGrip1.addEventListener("selectstart", onSelectStart);
@@ -227,12 +225,11 @@ document.body.addEventListener("click", () => {
 
 scene.add(controls.getObject());
 
-
 let marker = new THREE.Mesh(
-  new THREE.CircleGeometry( 0.25, 32 ).rotateX( - Math.PI / 2 ),
-  new THREE.MeshBasicMaterial( { color: 0x808080 } )
+  new THREE.CircleGeometry(0.25, 32).rotateX(-Math.PI / 2),
+  new THREE.MeshBasicMaterial({ color: 0x808080 })
 );
-scene.add( marker );
+scene.add(marker);
 
 function render() {
   INTERSECTION = undefined;
@@ -270,27 +267,6 @@ function render() {
 
 function animate() {
   renderer.setAnimationLoop(render);
-  requestAnimationFrame(animate);
-  let time = performance.now();
-  if (controls.isLocked === true) {
-    let delta = (time - prevTime) / 1000;
-
-    velocity.x -= velocity.x * 10.0 * delta;
-    velocity.z -= velocity.z * 10.0 * delta;
-
-    velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
-
-    direction.z = Number(moveForward) - Number(moveBackward);
-    direction.x = Number(moveRight) - Number(moveLeft);
-    direction.normalize(); // this ensures consistent movements in all directions
-
-    if (moveForward || moveBackward) velocity.z -= direction.z * 400.0 * delta;
-    if (moveLeft || moveRight) velocity.x -= direction.x * 400.0 * delta;
-  }
-
-  prevTime = time;
-
-  renderer.render(scene, camera);
 }
 
 animate();

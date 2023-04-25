@@ -98,19 +98,45 @@
           scene.add(gltf.scene);
         });
 
-        function addTree(number) {
-          for (let i = 0; i < number; i++) {
-            let loader = new FBXLoader();
-            loader.load("oak_01.fbx", function (object) {
-              let randX = Math.random() * 200 - 100;
-              let randZ = Math.random() * 200 - 100;
-              object.position.set(randX, -0.5, randZ);
-              scene.add(object);
-            });
-          }
-        }
+        let loaderTree = new FBXLoader();
+        loader.load("oak_01.fbx", function (object) {
+          let randX = Math.random() * 200 - 100;
+          let randZ = Math.random() * 200 - 100;
+          object.position.set(randX, -0.5, randZ);
+          scene.add(object);
+        });
 
-        addTree(5);
+        loaderTree = new FBXLoader();
+        loader.load("oak_01.fbx", function (object) {
+          let randX = Math.random() * 200 - 100;
+          let randZ = Math.random() * 200 - 100;
+          object.position.set(randX, -0.5, randZ);
+          scene.add(object);
+        });
+
+        loaderTree = new FBXLoader();
+        loader.load("oak_01.fbx", function (object) {
+          let randX = Math.random() * 200 - 100;
+          let randZ = Math.random() * 200 - 100;
+          object.position.set(randX, -0.5, randZ);
+          scene.add(object);
+        });
+
+        loaderTree = new FBXLoader();
+        loader.load("oak_01.fbx", function (object) {
+          let randX = Math.random() * 200 - 100;
+          let randZ = Math.random() * 200 - 100;
+          object.position.set(randX, -0.5, randZ);
+          scene.add(object);
+        });
+
+        loaderTree = new FBXLoader();
+        loader.load("oak_01.fbx", function (object) {
+          let randX = Math.random() * 200 - 100;
+          let randZ = Math.random() * 200 - 100;
+          object.position.set(randX, -0.5, randZ);
+          scene.add(object);
+        });
 
         raycaster = new THREE.Raycaster();
 

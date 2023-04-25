@@ -169,11 +169,11 @@ function onSelectEnd() {
   }
 }
 
-gripController1.addEventListener("selectstart", onSelectStart);
-gripController1.addEventListener("selectend", onSelectEnd);
+controllerGrip1.addEventListener("selectstart", onSelectStart);
+controllerGrip1.addEventListener("selectend", onSelectEnd);
 
-gripController2.addEventListener("selectstart", onSelectStart);
-gripController2.addEventListener("selectend", onSelectEnd);
+controllerGrip2.addEventListener("selectstart", onSelectStart);
+controllerGrip2.addEventListener("selectend", onSelectEnd);
 
 function buildController(data) {
   let geometry, material;

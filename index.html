@@ -336,10 +336,17 @@
           if (lastPosition) {
             // si le point d'intersection n'est pas trop éloigné du dernier point d'intersection
             if (intersects[0].point.distanceTo(lastPosition) < 1) {
-              if (lastTime == 350) {
+              if (lastTime == 75) {
+                cibleMesh.material.color.set(0xffa500);
+              } else if (lastTime == 150) {
+                cibleMesh.material.color.set(0xffff00);
+              } else if (lastTime == 200) {
+                cibleMesh.material.color.set(0x00ff00);
+              }
+              if (lastTime == 250) {
                 const offsetPosition = {
                   x: -intersects[0].point.x,
-                  y: 1,
+                  y: -intersects[0].point.y,
                   z: -intersects[0].point.z,
                   w: 1,
                 };
@@ -352,7 +359,6 @@
                   baseReferenceSpace.getOffsetReferenceSpace(transform);
 
                 renderer.xr.setReferenceSpace(teleportSpaceOffset);
-                baseReferenceSpace = teleportSpaceOffset;
               } else {
                 lastTime++;
               }

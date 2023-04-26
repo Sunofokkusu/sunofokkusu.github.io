@@ -336,10 +336,25 @@
           if (lastPosition) {
             // si le point d'intersection n'est pas trop éloigné du dernier point d'intersection
             if (intersects[0].point.distanceTo(lastPosition) < 0.5) {
-              console.log(lastTime);
               if (lastTime == 500) {
                 // on change la couleur de la cible
                 cibleMesh.material.color.set(0x00ff00);
+                const offsetPosition = {
+                  x: -intersects[0].point.x,
+                  y: -intersects[0].point.y,
+                  z: -intersects[0].point.z,
+                  w: 1,
+                };
+                const offsetRotation = new THREE.Quaternion();
+                const transform = new XRRigidTransform(
+                  offsetPosition,
+                  offsetRotation
+                );
+                const teleportSpaceOffset =
+                  baseReferenceSpace.getOffsetReferenceSpace(transform);
+
+                renderer.xr.setReferenceSpace(teleportSpaceOffset);
+                baseReferenceSpace = teleportSpaceOffset;
               } else {
                 lastTime++;
               }
@@ -367,7 +382,7 @@
         } else {
           lastTime = 0;
           scene.remove(cibleMesh);
-          scene.remove(line)
+          scene.remove(line);
         }
 
         tempMatrix

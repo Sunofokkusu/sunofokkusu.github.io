@@ -335,11 +335,11 @@
         if (intersects.length > 0) {
           if (lastPosition) {
             // si le point d'intersection n'est pas trop éloigné du dernier point d'intersection
-            if (intersects[0].point.distanceTo(lastPosition) < 0.5) {
+            if (intersects[0].point.distanceTo(lastPosition) < 1) {
               if (lastTime == 350) {
                 const offsetPosition = {
                   x: -intersects[0].point.x,
-                  y: renderer.xr.getCamera(camera).position.y,
+                  y: 1,
                   z: -intersects[0].point.z,
                   w: 1,
                 };

@@ -336,12 +336,10 @@
           if (lastPosition) {
             // si le point d'intersection n'est pas trop éloigné du dernier point d'intersection
             if (intersects[0].point.distanceTo(lastPosition) < 0.5) {
-              if (lastTime == 500) {
-                // on change la couleur de la cible
-                cibleMesh.material.color.set(0x00ff00);
+              if (lastTime == 350) {
                 const offsetPosition = {
                   x: -intersects[0].point.x,
-                  y: -intersects[0].point.y,
+                  y: renderer.xr.getCamera(camera).position.y,
                   z: -intersects[0].point.z,
                   w: 1,
                 };

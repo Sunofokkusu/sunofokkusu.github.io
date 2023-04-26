@@ -277,6 +277,7 @@
         INTERSECTION = undefined;
 
         raycaster.ray.origin.setFromMatrixPosition(renderer.xr.getCamera(camera).matrixWorld);
+        raycaster.ray.direction.set(0, 0, -1).applyMatrix4(tempMatrix);
 
         if (controller1.userData.isSelecting === true) {
           tempMatrix.identity().extractRotation(controller1.matrixWorld);

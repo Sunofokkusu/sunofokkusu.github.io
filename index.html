@@ -276,6 +276,7 @@
       function render() {
         INTERSECTION = undefined;
 
+        tempMatrix.identity().extractRotation(renderer.xr.getCamera(camera).matrixWorld);
         raycaster.ray.origin.setFromMatrixPosition(renderer.xr.getCamera(camera).matrixWorld);
         raycaster.ray.direction.set(0, 0, -1).applyMatrix4(tempMatrix);
 

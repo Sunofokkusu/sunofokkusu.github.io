@@ -299,13 +299,45 @@
       line.rotation.z = renderer.xr.getCamera(camera).rotation.z;
       scene.add(line);
 
-      let cibleMesh = new THREE.Mesh(
-        new THREE.SphereGeometry(0.1, 32, 32),
-        new THREE.MeshBasicMaterial({ color: 0xff0000 })
-      );
+      // let cibleMesh = new THREE.Mesh(
+      //   new THREE.SphereGeometry(0.1, 32, 32),
+      //   new THREE.MeshBasicMaterial({ color: 0xff0000 })
+      // );
 
       let lastPosition;
       let lastTime = 0;
+
+      // Define the radius of the progress bar
+      let radius = 5;
+
+      // Define the thickness of the progress bar
+      let thickness = 0.5;
+
+      // Define the progress value as a fraction (0 to 1)
+      let progress = 0.75;
+
+      // Create a shape for the progress bar
+      let shape = new THREE.Shape();
+      shape.absarc(0, 0, radius, 0, Math.PI * 2 * progress, false);
+      shape.absarc(0, 0, radius - thickness, Math.PI * 2 * progress, 0, true);
+      shape.closePath();
+
+      // Create an extruded geometry from the shape
+      let geometry = new THREE.ExtrudeGeometry(shape, {
+        depth: thickness,
+        bevelEnabled: false,
+      });
+
+      // Create a material for the progress bar
+      let material = new THREE.MeshBasicMaterial({
+        color: 0x00ff00, // Set the color to green
+      });
+
+      // Create a mesh for the progress bar
+      let mesh = new THREE.Mesh(geometry, material);
+
+      mesh.scale.set(0.1, 0.1, 0.1);
+      mesh.rotation.x = Math.PI / 2;
 
       function render() {
         INTERSECTION = undefined;
@@ -336,10 +368,54 @@
           if (lastPosition) {
             // si le point d'intersection n'est pas trop éloigné du dernier point d'intersection
             if (intersects[0].point.distanceTo(lastPosition) < 1) {
-              let red = new THREE.Color(1, 0, 0);
-              let green = new THREE.Color(0, 1, 0);
-              let color = red.lerp(green, lastTime / 250);
-              cibleMesh.material.color.set(color);
+              if (mesh) {
+                scene.remove(mesh);
+              }
+              // Define the radius of the progress bar
+              radius = 5;
+
+              // Define the thickness of the progress bar
+              thickness = 0.5;
+
+              // Define the progress value as a fraction (0 to 1)
+              progress = lastTime / 250;
+
+              // Create a shape for the progress bar
+              shape = new THREE.Shape();
+              shape.absarc(0, 0, radius, 0, Math.PI * 2 * progress, false);
+              shape.absarc(
+                0,
+                0,
+                radius - thickness,
+                Math.PI * 2 * progress,
+                0,
+                true
+              );
+              shape.closePath();
+
+              // Create an extruded geometry from the shape
+              geometry = new THREE.ExtrudeGeometry(shape, {
+                depth: thickness,
+                bevelEnabled: false,
+              });
+
+              // Create a material for the progress bar
+              material = new THREE.MeshBasicMaterial({
+                color: new THREE.Color(1, 1, 1),
+              });
+
+              // Create a mesh for the progress bar
+              mesh = new THREE.Mesh(geometry, material);
+
+              mesh.scale.set(0.1, 0.1, 0.1);
+              mesh.rotation.x = Math.PI / 2;
+              mesh.position.y = -1;
+              mesh.position.copy(intersects[0].point);
+              scene.add(mesh);
+              // let red = new THREE.Color(1, 0, 0);
+              // let green = new THREE.Color(0, 1, 0);
+              // let color = red.lerp(green, lastTime / 250);
+              // cibleMesh.material.color.set(color);
               if (lastTime == 250) {
                 const offsetPosition = {
                   x: -intersects[0].point.x,
@@ -363,7 +439,7 @@
               // on réinitialise le compteur
               lastTime = 0;
               // on réinitialise la couleur de la cible
-              cibleMesh.material.color.set(0xff0000);
+              // cibleMesh.material.color.set(0xff0000);
               // on met a jour la dernière position
               lastPosition = intersects[0].point;
             }
@@ -371,18 +447,18 @@
             lastPosition = intersects[0].point;
           }
           let intersesctionPoint = intersects[0].point;
-          if (cibleMesh) {
-            scene.remove(cibleMesh);
+          if (mesh) {
+            scene.remove(mesh);
           }
-          cibleMesh.position.set(
+          mesh.position.set(
             intersesctionPoint.x,
             intersesctionPoint.y,
             intersesctionPoint.z
           );
-          scene.add(cibleMesh);
+          scene.add(mesh);
         } else {
           lastTime = 0;
-          scene.remove(cibleMesh);
+          scene.remove(mesh);
           scene.remove(line);
         }
 

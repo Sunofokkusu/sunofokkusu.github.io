@@ -336,13 +336,10 @@
           if (lastPosition) {
             // si le point d'intersection n'est pas trop éloigné du dernier point d'intersection
             if (intersects[0].point.distanceTo(lastPosition) < 1) {
-              if (lastTime == 75) {
-                cibleMesh.material.color.set(0xffa500);
-              } else if (lastTime == 150) {
-                cibleMesh.material.color.set(0xffff00);
-              } else if (lastTime == 200) {
-                cibleMesh.material.color.set(0x00ff00);
-              }
+              let red = new THREE.Color(1, 0, 0);
+              let green = new THREE.Color(0, 1, 0);
+              let color = red.lerp(green, lastTime / 250);
+              cibleMesh.material.color.set(color);
               if (lastTime == 250) {
                 const offsetPosition = {
                   x: -intersects[0].point.x,
